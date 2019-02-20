@@ -1,0 +1,3 @@
+<?php
+define('WEATHERKEY','ae32748f490b85f89e870449e4359a6c');
+define('TIMEKEY','WU60P08OQM70');

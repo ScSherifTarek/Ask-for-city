@@ -1,7 +1,13 @@
-<?php require_once('partials/header.php'); ?>
+<?php require_once('partials/header.php'); 
+include 'messages.php';
+?>
 <div class="box">
     <div class="head">
         <div class="container">
+        <?php
+                if(isset($_GET['error']))
+                    echo messages::error($_GET['error']);
+        ?>
             <div class="content">
                 <h1>Choose a city</h1>
                 <div class="line"></div>

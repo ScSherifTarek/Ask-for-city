@@ -1,21 +1,87 @@
 <?php
 require_once('config.php');
-
+function weatherAPI($city , $key)
+{
+  $city = urlencode($city);
+  $key = urlencode($key);
+  $apiData = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q='.$city.'&APPID='.$key);
+  $weather = json_decode($apiData);
+  return $weather ;
+}
+function timeAPI($lon, $lat, $key)
+{
+  $lon = urlencode($lon);
+  $lat = urlencode($lat);
+  $key = urlencode($key);
+  $apiData = file_get_contents('http://api.timezonedb.com/v2.1/get-time-zone?key='.$key.'&format=json&by=position&lat='.$lat.'&lng='.$lon.'');
+  $time = json_decode($apiData);
+  return $time;
+}    
+function imagesAPI($city, $country, $num)
+{
+   $opts = array(
+      'http'=>array(
+        'method'=>"GET",
+        'header'=>"Authorization: ".PEXELSKEY."" 
+      )
+    );
+  $context = stream_context_create($opts);
+  $city = urlencode($city);
+  $country = urlencode($country);
+  $num = urlencode($num);
+  $file = file_get_contents('https://api.pexels.com/v1/search?query='.$city.''.$country.'&per_page='.$num.'&page=1', false, $context);
+  $data = json_decode($file);
+  $imageSrcs = array();
+  foreach ($data->photos as $image) {
+        $imageSrcs[]=$image->src->landscape;
+    }
+  return $imageSrcs;
+}
+function getInfo($city, $weather, $time)
+{
+  $cityInfo = array();
+  $cityInfo["name"] = $_POST['city'];
+  $cityInfo["country"] = $time->countryName;
+  $cityInfo["temperature"] = ($weather->main->temp) -273.15;
+  $cityInfo["time"] = $time->formatted;
+  return $cityInfo;
+}
 if (isset($_POST['getWeather']) && isset($_POST['city'])) {
-    
-
-    $apiData = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q='.$_POST['city'].'&APPID='.WEATHERKEY);
-    $weather = json_decode($apiData);
-
-
-    $weather;
+    $weather = weatherAPI($_POST['city'],WEATHERKEY);
     echo '<h1>'.$_POST['city'].'</h1>';
     echo '<pre>';
     print_r($weather);
     echo '</pre>';
 
+    
     $lon = $weather->coord->lon;
     $lat = $weather->coord->lat;
+    $time = timeAPI($lon, $lat, TIMEKEY);
+    echo '<pre>';
+    print_r($time);
+    echo '</pre>';
+
+    $opts = array(
+      'http'=>array(
+        'method'=>"GET",
+        'header'=>"Authorization: ".PEXELSKEY."" 
+      )
+    );
+    $conName = $time->countryName;
+    $data = imagesAPI($_POST['city'], $conName, 15);
+    echo '<pre>';
+    print_r($data);
+    
+    echo '</pre>';
+
+
+    getInfo($_POST['city'], $weather, $time);
+    die();
+
+
+    
+/*************************************************************************************************************/
+
 
 
     $apiData = file_get_contents('http://api.timezonedb.com/v2.1/get-time-zone?key='.TIMEKEY.'&format=json&by=position&lat='.$lat.'&lng='.$lon.'');
@@ -59,7 +125,7 @@ if (isset($_POST['getWeather']) && isset($_POST['city'])) {
     $context = stream_context_create($opts);
 
     // Open the file using the HTTP headers set above
-    $file = file_get_contents('https://api.pexels.com/v1/search?query='.urlencode($_POST['city'].' '.$time->countryName).'&per_page=15&page=1', false, $context);
+    $file = file_get_contents('https://api.pexels.com/v1/search?query='.urlencode($_POST['city'].' '.$time->countryName).'&per_page='.'15'.'&page=1', false, $context);
     $data = json_decode($file);
     echo '<pre>';
     print_r($data);

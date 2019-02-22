@@ -5,6 +5,7 @@ function weatherAPI($city , $key)
   $city = urlencode($city);
   $key = urlencode($key);
   $apiData = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q='.$city.'&APPID='.$key);
+  validation($apiData);
   $weather = json_decode($apiData);
   return $weather ;
 }
@@ -45,6 +46,13 @@ function getInfo($city, $weather, $time)
   $cityInfo["temperature"] = ($weather->main->temp) -273.15;
   $cityInfo["time"] = $time->formatted;
   return $cityInfo;
+}
+function validation ($data)
+{
+  if($data == "")
+  {
+    header('location: index.php?error="Please Enter A Valaid City"');
+  }
 }
 if (isset($_POST['getWeather']) && isset($_POST['city'])) {
     $weather = weatherAPI($_POST['city'],WEATHERKEY);

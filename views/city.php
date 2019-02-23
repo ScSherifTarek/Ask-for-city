@@ -18,7 +18,7 @@
                 </div>
                 <?= generateImages($city->getImages()); ?>
                 <div class="btn">
-                    <a href="images.php?q=<?= $city->getQuery(); ?>">see all photos</a>
+                    <a href="images.php?q=<?= $city->getQuery(); ?>">see more photos</a>
                 </div>
             </div>
         </div>

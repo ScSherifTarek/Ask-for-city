@@ -8,5 +8,9 @@ if (isset($_POST['getWeather']) && isset($_POST['city'])) {
 	require_once('views/city.php');
 	require_once('partials/footer.php');
 }
+else
+{
+	validation();
+}
 
 ?>

@@ -8,5 +8,9 @@ if (isset($_GET['q'])) {
 	require_once('views/images.php');
 	require_once('partials/footer.php');
 }
+else
+{
+	validation();
+}
 
 ?>

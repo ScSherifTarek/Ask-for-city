@@ -1,8 +1,8 @@
 <?php
-function validation ($data)
+function validation($data = "")
 {
   if($data == "")
   {
-    header('location: index.php?error="Please Enter A Valid City"');
+    header('location: error.php?city='.$_POST['city']);
   }
 }

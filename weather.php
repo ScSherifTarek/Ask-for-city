@@ -1,5 +1,6 @@
 <?php
 require_once('config.php');
+
 function weatherAPI($city , $key)
 {
   $city = urlencode($city);
@@ -18,24 +19,24 @@ function timeAPI($lon, $lat, $key)
   $time = json_decode($apiData);
   return $time;
 }    
-function imagesAPI($city, $country, $num)
+function imagesAPI($city, $country, $numOfPages, $key, $page = 1)
 {
    $opts = array(
       'http'=>array(
         'method'=>"GET",
-        'header'=>"Authorization: ".PEXELSKEY."" 
+        'header'=>"Authorization: ".$key."" 
       )
     );
   $context = stream_context_create($opts);
-  $city = urlencode($city);
-  $country = urlencode($country);
-  $num = urlencode($num);
-  $file = file_get_contents('https://api.pexels.com/v1/search?query='.$city.''.$country.'&per_page='.$num.'&page=1', false, $context);
+
+  $q = urlencode($city.' '.$country);
+  $numOfPages = urlencode($num);
+  $page = urlencode($page);
+
+  $file = file_get_contents('https://api.pexels.com/v1/search?query='.$city.' '.$country.'&per_page='.$numOfPages.'&page='.$page.'', false, $context);
+  
   $data = json_decode($file);
-  $imageSrcs = array();
-  foreach ($data->photos as $image) {
-        $imageSrcs[]=$image->src->landscape;
-    }
+  $imageSrcs = $data->photos;
   return $imageSrcs;
 }
 function getInfo($city, $weather, $time)
@@ -51,7 +52,7 @@ function validation ($data)
 {
   if($data == "")
   {
-    header('location: index.php?error="Please Enter A Valaid City"');
+    header('location: index.php?error="Please Enter A Valid City"');
   }
 }
 if (isset($_POST['getWeather']) && isset($_POST['city'])) {
@@ -133,6 +134,7 @@ if (isset($_POST['getWeather']) && isset($_POST['city'])) {
     $context = stream_context_create($opts);
 
     // Open the file using the HTTP headers set above
+    echo 'https://api.pexels.com/v1/search?query='.urlencode($_POST['city'].' '.$time->countryName).'&per_page='.'15'.'&page=1';
     $file = file_get_contents('https://api.pexels.com/v1/search?query='.urlencode($_POST['city'].' '.$time->countryName).'&per_page='.'15'.'&page=1', false, $context);
     $data = json_decode($file);
     echo '<pre>';

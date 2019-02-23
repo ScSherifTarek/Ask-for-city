@@ -1,13 +1,8 @@
-<?php require_once('partials/header.php'); 
-include 'messages.php';
-?>
-<div class="box">
+<?php require_once('partials/header.php'); ?>
+
+<div class="box form-box">
     <div class="head">
         <div class="container">
-        <?php
-                if(isset($_GET['error']))
-                    echo messages::error($_GET['error']);
-        ?>
             <div class="content">
                 <h1>Choose a city</h1>
                 <div class="line"></div>
@@ -19,7 +14,7 @@ include 'messages.php';
         <div class="container">
             <div class="content">
                 <div class="form">
-                    <form action="weather.php" method="POST">
+                    <form action="city.php" method="POST">
                        <input type="text" placeholder="City Name" name="city" required/>
                        <input type="submit" name="getWeather" value=">"/>
                     </form>

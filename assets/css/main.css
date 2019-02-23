@@ -4,6 +4,7 @@
     padding:0;
     font-family: 'Changa', sans-serif;
     color:#333;
+    box-sizing: border-box;
 }
 .container
 {
@@ -13,6 +14,7 @@
 img
 {
     width:100%;
+    max-height: 100%;
 }
 .underLined
 {
@@ -32,15 +34,19 @@ img
 }
 .box
 {
-    padding:40px 0 100px;
-    margin:80px;
     box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 /** start main page head styles **/
+
 .head
 {
     
     text-align: center;
+}
+.form-box
+{
+    margin:80px;
+    padding:40px 0 100px;
 }
 .head .content
 {
@@ -99,10 +105,45 @@ img
 /** start city styles **/
 .city
 {
-    background-color:#09c;
+    padding-top: 20px;
+    background-color:#fff;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden;
+    position: fixed;
+    background-color: #000;
+}
+.city *
+{
+    color:#fff;
+}
+.city .line
+{
+    background-color: #fff;
+}
+.city .city-image
+{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    opacity: 0.7;
+}
+.city .city-image img
+{
+    width:100%;
+    height: 100%;
+}
+.city .city-content
+{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height: 100%;
 }
 .city .images-col,
 .city .content-col
@@ -110,12 +151,101 @@ img
     float:left;
 }
 
-.city .images-col{width:20%;background-color: #333;}
-.city .content-col{width:80%;background-color: orange;}
+.city .images-col{width:20%;}
+.city .content-col{width:80%;}
 
 .city .images-col
 {
-    background-color: #09c;
+    text-align: center;
+    padding: 60px 20px;
+    max-height: 100%;
+    overflow-y: auto;
+}
+.city .images-col .box
+{
+    box-shadow: 0 1px 5px 0 rgba(255,255,255,0.2);
+}
+.city .images-col .images .head
+{
+    font-size: 2vw;
+    padding-bottom:20px;
+}
+.city .images-col .images .card
+{
+    margin:20px 0;
 }
 
+.city .content-col .city-row
+{
+    margin:0 0 40px;
+/*    background-color: #000;*/
+}
+.city .content-col .city-row .name-col,
+.city .content-col .city-row .prop-col
+{
+    text-align: center;
+    float:left;
+}
+
+.city .content-col .city-row .name-col 
+{
+    width:65%;
+}
+
+.city .content-col .city-row .name-col .city-name
+{
+    font-size: 32px;
+    text-transform: capitalize;
+}
+.city .content-col .city-row .name-col .city-name .country
+{
+    font-size: 28px;
+}
+
+.city .content-col .city-row .prop-col
+{
+    width:35%;
+    padding-top:40px;
+}
+.city .content-col .city-row .prop-col .temp
+{
+    font-size: 50px;
+}
+.city .content-col .city-row .prop-col .date-time
+{
+    font-size: 40px;
+}
+
+.city .content-col .map-row
+{
+    padding:0 20px;
+}
 /** end city styles **/
+
+/** Start All images Styles **/
+
+.allImages
+{
+    padding-top: 40px;
+}
+.allImages .head
+{
+    font-size: 30px;
+}
+.allImages .head .line
+{
+    margin-top: 20px;
+}
+.allImages .images
+{
+    margin-top: 60px;
+}
+
+.allImages .images .card
+{
+    width: 33.333%;
+    /*display: inline-block;*/
+    float: left;
+    padding:20px;
+}
+/** End All images Styles **/

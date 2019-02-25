@@ -12,12 +12,11 @@ class API_Communicator
 	public function __construct($city = null,$numOfPics = 3) {
         if($city == null)
         {
-        	// throw an error
-        	echo 'Error';
+        	validation();
         }
         else
         {
-        	$this->setCity($city);
+        	$this->setCity($city,$numOfPics);
         }
     }
     public function setCity($city,$numOfPics = 3)
@@ -86,9 +85,13 @@ class API_Communicator
 	{
 	  $city = urlencode($city);
 	  $key = urlencode($key);
+
+
 	  $apiData = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q='.$city.'&APPID='.$key);
-	  validation($apiData);
-	  $weather = json_decode($apiData);
+	  // validation($apiData);
+
+	  
+	  $weather = json_decode($apiData);	
 	  return $weather ;
 	}
 
